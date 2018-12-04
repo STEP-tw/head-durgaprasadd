@@ -3,6 +3,14 @@ const isCharacterType = function(string){
   return firstTwoCharacters == '-c';
 }
 
+const findType = function(arg){
+  if(isCharacterType(arg)){
+    return 'c';
+  }
+  return 'n';
+}
+
 module.exports = {
-  isCharacterType
+  isCharacterType,
+  findType
 }
