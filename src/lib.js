@@ -10,7 +10,13 @@ const findType = function(arg){
   return 'n';
 }
 
+const organiseInputs = function(args){
+  let type = findType(args[0]);
+  return { type }
+}
+
 module.exports = {
   isCharacterType,
-  findType
+  findType,
+  organiseInputs
 }
