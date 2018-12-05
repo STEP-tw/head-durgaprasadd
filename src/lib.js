@@ -35,7 +35,8 @@ const findFileNames = function(args){
 const organiseInputs = function(args){
   let type = findType(args[0]);
   let range = findRange(args.slice(0,2));
-  return { type, range }
+  let fileNames = findFileNames(args);
+  return { type, range, fileNames }
 }
 
 module.exports = {

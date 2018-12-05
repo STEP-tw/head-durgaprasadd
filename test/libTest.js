@@ -94,27 +94,27 @@ describe("findFileNames",function(){
 })
 
 describe("organiseInputs",function(){
-  it("should return default object of type n and range 10 when input array not contains any type and range",function(){
-    assert.deepEqual(organiseInputs(['']),{type:'n',range:10});
-    assert.deepEqual(organiseInputs(['text']),{type:'n',range:10});
-    assert.deepEqual(organiseInputs(['-']),{type:'n',range:10});
+  it("should return default object of type n ,range 10 and array of fileNames when input array not contains any type and range",function(){
+    assert.deepEqual(organiseInputs(['']),{type:'n',range:10,fileNames:['']});
+    assert.deepEqual(organiseInputs(['text']),{type:'n',range:10,fileNames:['text']});
+    assert.deepEqual(organiseInputs(['-']),{type:'n',range:10,fileNames:[]});
   })
 
-  it("should return object of type c and default range 10 when input array contains type of -c and not range",function(){
-    assert.deepEqual(organiseInputs(['-c']),{type:'c',range:10});
-    assert.deepEqual(organiseInputs(['-c','text']),{type:'c',range:10});
+  it("should return object of type c ,default range 10 and array of fileNames when input array contains type of -c and not range",function(){
+    assert.deepEqual(organiseInputs(['-c']),{type:'c',range:10,fileNames:[]});
+    assert.deepEqual(organiseInputs(['-c','text']),{type:'c',range:10,fileNames:['text']});
   })
 
-  it("should return object of type c and given range when input array contains type of -c and range",function(){
-    assert.deepEqual(organiseInputs(['-c10']),{type:'c',range:10});
-    assert.deepEqual(organiseInputs(['-c','5']),{type:'c',range:5});
-    assert.deepEqual(organiseInputs(['-c','-5']),{type:'c',range:5});
+  it("should return object of type c, given range and empty array of fileNames when input array contains type of -c and range",function(){
+    assert.deepEqual(organiseInputs(['-c10']),{type:'c',range:10,fileNames:[]});
+    assert.deepEqual(organiseInputs(['-c','5']),{type:'c',range:5,fileNames:[]});
+    assert.deepEqual(organiseInputs(['-c','-5']),{type:'c',range:5,fileNames:[]});
   })
 
-  it("should return object of type n and given range when input array contains type of -n and range",function(){
-    assert.deepEqual(organiseInputs(['-n10']),{type:'n',range:10});
-    assert.deepEqual(organiseInputs(['-n','5']),{type:'n',range:5});
-    assert.deepEqual(organiseInputs(['-n','-5']),{type:'n',range:5});
+  it("should return object of type n, given range and empty array of fileNames when input array contains type of -n and range",function(){
+    assert.deepEqual(organiseInputs(['-n1']),{type:'n',range:1,fileNames:[]});
+    assert.deepEqual(organiseInputs(['-n','5']),{type:'n',range:5,fileNames:[]});
+    assert.deepEqual(organiseInputs(['-n','-5']),{type:'n',range:5,fileNames:[]});
   })
 
 })
