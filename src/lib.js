@@ -45,6 +45,13 @@ const getSelectedData = function(type,range,content){
   return data.slice(0,range).join(delimiter[type]);
 }
 
+const head = function(args,readFile){
+  let { type, range, fileNames } = organiseInputs(args);
+  let contents = fileNames.map(fileName => readFile(fileName,'utf-8'));
+  let output = contents.map(getSelectedData.bind(null,type,range));
+  return output.join('\n');
+}
+
 module.exports = {
   isCharacterType,
   findType,
@@ -53,5 +60,6 @@ module.exports = {
   findRange,
   isFile,
   findFileNames,
-  getSelectedData
+  getSelectedData,
+  head
 }

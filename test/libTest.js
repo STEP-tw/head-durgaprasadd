@@ -7,7 +7,8 @@ const {
   findRange,
   isFile,
   findFileNames,
-  getSelectedData
+  getSelectedData,
+  head
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -132,5 +133,22 @@ describe("getSelectedData",function(){
   it("should return given range of lines in a string when type is n",function(){
     assert.deepEqual(getSelectedData('n',1,'sample\nText'),'sample');
     assert.deepEqual(getSelectedData('n',2,'sample\nText'),'sample\nText');
+  })
+})
+
+const readFile = function(file){
+  return file;
+}
+
+describe("head",function(){
+  it("should return range of characters in file",function(){
+    assert.deepEqual(head(['-c','1','text'],readFile),'t');
+    assert.deepEqual(head(['-c','4','text'],readFile),'text');
+    assert.deepEqual(head(['-c','10','text'],readFile),'text');
+  })
+  it("should return range of lines in file",function(){
+    assert.deepEqual(head(['-n','1','text'],readFile),'text');
+    assert.deepEqual(head(['-n','4','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
+    assert.deepEqual(head(['-n','10','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
   })
 })
