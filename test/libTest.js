@@ -5,7 +5,8 @@ const {
   organiseInputs,
   isNumberFound,
   findRange,
-  isFile
+  isFile,
+  findFileNames
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -76,21 +77,40 @@ describe("isFile",function(){
 
 })
 
+describe("findFileNames",function(){
+  it("should return empty array when input is empty array",function(){
+    assert.deepEqual(findFileNames([]),[]);
+  })
+  it("should return empty array when input not contains any fileNames",function(){
+    assert.deepEqual(findFileNames(['10']),[]);
+    assert.deepEqual(findFileNames(['-n']),[]);
+    assert.deepEqual(findFileNames(['-c5']),[]);
+  })
+  it("should return array of fileNames when input contains fileNames",function(){
+    assert.deepEqual(findFileNames(['text']),['text']);
+    assert.deepEqual(findFileNames(['file']),['file']);
+    assert.deepEqual(findFileNames(['text','file']),['text','file']);
+  })
+})
+
 describe("organiseInputs",function(){
   it("should return default object of type n and range 10 when input array not contains any type and range",function(){
     assert.deepEqual(organiseInputs(['']),{type:'n',range:10});
     assert.deepEqual(organiseInputs(['text']),{type:'n',range:10});
     assert.deepEqual(organiseInputs(['-']),{type:'n',range:10});
   })
+
   it("should return object of type c and default range 10 when input array contains type of -c and not range",function(){
     assert.deepEqual(organiseInputs(['-c']),{type:'c',range:10});
     assert.deepEqual(organiseInputs(['-c','text']),{type:'c',range:10});
   })
+
   it("should return object of type c and given range when input array contains type of -c and range",function(){
     assert.deepEqual(organiseInputs(['-c10']),{type:'c',range:10});
     assert.deepEqual(organiseInputs(['-c','5']),{type:'c',range:5});
     assert.deepEqual(organiseInputs(['-c','-5']),{type:'c',range:5});
   })
+
   it("should return object of type n and given range when input array contains type of -n and range",function(){
     assert.deepEqual(organiseInputs(['-n10']),{type:'n',range:10});
     assert.deepEqual(organiseInputs(['-n','5']),{type:'n',range:5});

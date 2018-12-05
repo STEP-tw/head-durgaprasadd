@@ -27,6 +27,11 @@ const isFile = function(string){
   return !isType && !isNumber;
 }
 
+const findFileNames = function(args){
+  let fileNames = args.filter(isFile);
+  return fileNames;
+}
+
 const organiseInputs = function(args){
   let type = findType(args[0]);
   let range = findRange(args.slice(0,2));
@@ -39,5 +44,6 @@ module.exports = {
   organiseInputs,
   isNumberFound,
   findRange,
-  isFile
+  isFile,
+  findFileNames
 }
