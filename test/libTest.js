@@ -2,7 +2,8 @@ const assert = require('assert');
 const {
   isCharacterType,
   findType,
-  organiseInputs
+  organiseInputs,
+  isNumberFound
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -30,6 +31,19 @@ describe("findType",function(){
     assert.deepEqual(findType('-'),'n');
     assert.deepEqual(findType('-n'),'n');
     assert.deepEqual(findType('-n10'),'n');
+  })
+})
+
+describe("isNumberFound",function(){
+  it("should return number when input contains number",function(){
+    assert.deepEqual(isNumberFound('-n10'),10);
+    assert.deepEqual(isNumberFound('-10'),10);
+    assert.deepEqual(isNumberFound('10'),10);
+  })
+  it("should return NaN when input not contains any number",function(){
+    assert.deepEqual(''+isNumberFound('c'),'NaN');
+    assert.deepEqual(''+isNumberFound('-n'),'NaN');
+    assert.deepEqual(''+isNumberFound('text'),'NaN');
   })
 })
 
