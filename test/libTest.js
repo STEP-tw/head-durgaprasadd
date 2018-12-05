@@ -4,7 +4,8 @@ const {
   findType,
   organiseInputs,
   isNumberFound,
-  findRange
+  findRange,
+  isFile
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -59,6 +60,20 @@ describe("findRange",function(){
     assert.deepEqual(findRange(['-10']),10);
     assert.deepEqual(findRange(['-n10','c']),10);
   })
+})
+
+describe("isFile",function(){
+  it("should return true when input is text",function(){
+    assert.deepEqual(isFile('node.js'),true);
+    assert.deepEqual(isFile('node'),true);
+    assert.deepEqual(isFile('js'),true);
+  })
+  it("should return false when input is type or number",function(){
+    assert.deepEqual(isFile('10'),false);
+    assert.deepEqual(isFile('-c'),false);
+    assert.deepEqual(isFile('-n10'),false);
+  })
+
 })
 
 describe("organiseInputs",function(){

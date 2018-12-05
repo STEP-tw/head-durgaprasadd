@@ -21,6 +21,12 @@ const findRange = function(args){
   return Math.max(range,-range);
 }
 
+const isFile = function(string){
+  let isType = string[0]=='-';
+  let isNumber = +string;
+  return !isType && !isNumber;
+}
+
 const organiseInputs = function(args){
   let type = findType(args[0]);
   let range = findRange(args.slice(0,2));
@@ -32,5 +38,6 @@ module.exports = {
   findType,
   organiseInputs,
   isNumberFound,
-  findRange
+  findRange,
+  isFile
 }
