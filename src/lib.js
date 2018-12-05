@@ -15,14 +15,22 @@ const isNumberFound = function(string){
   return isNumber;
 }
 
+const findRange = function(args){
+  let range = ''+args.filter(isNumberFound);
+  range = +range||+range.slice(2)||10;
+  return Math.max(range,-range);
+}
+
 const organiseInputs = function(args){
   let type = findType(args[0]);
-  return { type }
+  let range = findRange(args.slice(0,2));
+  return { type, range }
 }
 
 module.exports = {
   isCharacterType,
   findType,
   organiseInputs,
-  isNumberFound
+  isNumberFound,
+  findRange
 }

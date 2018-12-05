@@ -3,7 +3,8 @@ const {
   isCharacterType,
   findType,
   organiseInputs,
-  isNumberFound
+  isNumberFound,
+  findRange
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -47,17 +48,38 @@ describe("isNumberFound",function(){
   })
 })
 
-describe("organiseInputs",function(){
-  it("should return object of type c when input array contains -c",function(){
-    assert.deepEqual(organiseInputs(['-c']),{type:'c'});
-    assert.deepEqual(organiseInputs(['-c10','text']),{type:'c'});
-    assert.deepEqual(organiseInputs(['-c','-n']),{type:'c'});
+describe("findRange",function(){
+  it("should return default 10 when input not contains any number",function(){
+    assert.deepEqual(findRange([]),10);
+    assert.deepEqual(findRange(['n']),10);
+    assert.deepEqual(findRange(['n','c']),10);
   })
-  it("should return object of type n when input array not contains -c",function(){
-    assert.deepEqual(organiseInputs(['']),{type:'n'});
-    assert.deepEqual(organiseInputs(['-n']),{type:'n'});
-    assert.deepEqual(organiseInputs(['-10','text']),{type:'n'});
-    assert.deepEqual(organiseInputs(['-n','-n']),{type:'n'});
+  it("should return number present in input when input contains number",function(){
+    assert.deepEqual(findRange(['1']),1);
+    assert.deepEqual(findRange(['-10']),10);
+    assert.deepEqual(findRange(['-n10','c']),10);
+  })
+})
+
+describe("organiseInputs",function(){
+  it("should return default object of type n and range 10 when input array not contains any type and range",function(){
+    assert.deepEqual(organiseInputs(['']),{type:'n',range:10});
+    assert.deepEqual(organiseInputs(['text']),{type:'n',range:10});
+    assert.deepEqual(organiseInputs(['-']),{type:'n',range:10});
+  })
+  it("should return object of type c and default range 10 when input array contains type of -c and not range",function(){
+    assert.deepEqual(organiseInputs(['-c']),{type:'c',range:10});
+    assert.deepEqual(organiseInputs(['-c','text']),{type:'c',range:10});
+  })
+  it("should return object of type c and given range when input array contains type of -c and range",function(){
+    assert.deepEqual(organiseInputs(['-c10']),{type:'c',range:10});
+    assert.deepEqual(organiseInputs(['-c','5']),{type:'c',range:5});
+    assert.deepEqual(organiseInputs(['-c','-5']),{type:'c',range:5});
+  })
+  it("should return object of type n and given range when input array contains type of -n and range",function(){
+    assert.deepEqual(organiseInputs(['-n10']),{type:'n',range:10});
+    assert.deepEqual(organiseInputs(['-n','5']),{type:'n',range:5});
+    assert.deepEqual(organiseInputs(['-n','-5']),{type:'n',range:5});
   })
 
 })
