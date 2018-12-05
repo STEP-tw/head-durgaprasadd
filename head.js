@@ -1,12 +1,5 @@
-const {
-  organiseInputs 
-} = require('./src/lib.js');
+const { head } = require('./src/lib.js');
 
 const readFile = require('fs').readFileSync;
 
-const main = function(args){
-  const headDetails = organiseInputs(args);
-  return headDetails;
-}
-
-console.log(main(process.argv.slice(2)));
+console.log(head(process.argv.slice(2),readFile));
