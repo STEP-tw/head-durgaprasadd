@@ -6,7 +6,8 @@ const {
   isNumberFound,
   findRange,
   isFile,
-  findFileNames
+  findFileNames,
+  getSelectedData
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -117,4 +118,19 @@ describe("organiseInputs",function(){
     assert.deepEqual(organiseInputs(['-n','-5']),{type:'n',range:5,fileNames:[]});
   })
 
+})
+
+describe("getSelectedData",function(){
+  it("should return empty string when range is 0",function(){
+    assert.deepEqual(getSelectedData('c',0,'sampleText'),'');
+    assert.deepEqual(getSelectedData('n',0,'sample\nText'),'');
+  })
+  it("should return given range of characters in a string when type is c",function(){
+    assert.deepEqual(getSelectedData('c',1,'sampleText'),'s');
+    assert.deepEqual(getSelectedData('c',2,'sample\nText'),'sa');
+  })
+  it("should return given range of lines in a string when type is n",function(){
+    assert.deepEqual(getSelectedData('n',1,'sample\nText'),'sample');
+    assert.deepEqual(getSelectedData('n',2,'sample\nText'),'sample\nText');
+  })
 })

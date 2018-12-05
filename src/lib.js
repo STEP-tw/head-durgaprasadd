@@ -39,6 +39,12 @@ const organiseInputs = function(args){
   return { type, range, fileNames }
 }
 
+const getSelectedData = function(type,range,content){
+  let delimiter = { c:'',n:'\n'};
+  let data = content.split(delimiter[type]);
+  return data.slice(0,range).join(delimiter[type]);
+}
+
 module.exports = {
   isCharacterType,
   findType,
@@ -46,5 +52,6 @@ module.exports = {
   isNumberFound,
   findRange,
   isFile,
-  findFileNames
+  findFileNames,
+  getSelectedData
 }
