@@ -10,11 +10,6 @@ const findType = function(arg){
   return 'n';
 }
 
-const isNumberFound = function(string){
-  let isNumber = +string.slice(1) || +string.slice(2) || +string;
-  return isNumber;
-}
-
 const findRange = function(firstArg,SecondArg){
   let range;
   if(firstArg[0] == '-'){
@@ -74,7 +69,6 @@ module.exports = {
   isCharacterType,
   findType,
   organiseInputs,
-  isNumberFound,
   findRange,
   isFile,
   findFileNames,
