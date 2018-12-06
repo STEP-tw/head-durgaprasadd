@@ -126,6 +126,7 @@ describe("getSelectedData",function(){
 const readFile = function(file){
   return file;
 }
+const existsFile = () => true;
 
 describe("head",function(){
   it("should return error message for wrong range",function(){
@@ -135,14 +136,14 @@ describe("head",function(){
     assert.deepEqual(head(['-c','-10x','something']),'head: illegal byte count -- -10x');
   })
   it("should return range of characters in file",function(){
-    assert.deepEqual(head(['-c','1','text'],readFile),'t');
-    assert.deepEqual(head(['-c','4','text'],readFile),'text');
-    assert.deepEqual(head(['-c','10','text'],readFile),'text');
+    assert.deepEqual(head(['-c','1','text'],readFile,existsFile),'t\n');
+    assert.deepEqual(head(['-c','4','text'],readFile,existsFile),'text\n');
+    assert.deepEqual(head(['-c','10','text'],readFile,existsFile),'text\n');
   })
   it("should return range of lines in file",function(){
-    assert.deepEqual(head(['-n','1','text'],readFile),'text');
-    assert.deepEqual(head(['-n','4','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
-    assert.deepEqual(head(['-n','10','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
+    assert.deepEqual(head(['-n','1','text'],readFile,existsFile),'text\n');
+    assert.deepEqual(head(['-n','4','nothing'],readFile,existsFile),'nothing\n');
+    assert.deepEqual(head(['-n','10','sample'],readFile,existsFile),'sample\n');
   })
 })
 

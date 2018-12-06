@@ -45,6 +45,23 @@ const getSelectedData = function(type,range,content){
   return data.slice(0,range).join(delimiter[type]);
 }
 
+const isExist = function(existsFile,fileName){
+  return existsFile(fileName);
+}
+
+const getOutput = function(readFile,existsFile,{type,range},result,fileName){
+  if(isExist(existsFile,fileName)){
+    let content = readFile(fileName,'utf-8');
+    let data = getSelectedData(type,range,content);
+    let headline = '==> '+fileName+' <==';
+    result.push(headline+'\n'+data+'\n');
+    return result;
+  }
+  let message = 'head: '+fileName+': No such file or directory';
+  result.push(message);
+  return result;
+}
+
 const organiseOutput = function(output,fileNames){
   if(output.length == 1){
     return output;
@@ -54,15 +71,16 @@ const organiseOutput = function(output,fileNames){
   return output;
 }
 
-const head = function(args,readFile){
+const head = function(args,readFile,existsFile){
   let { type, range, fileNames } = organiseInputs(args);
   let message = {c:'byte',n:'line'};
   if(!(+range > 0)){
     return 'head: illegal '+message[type]+' count -- '+range;
   }
-  let contents = fileNames.map(fileName => readFile(fileName,'utf-8'));
-  let output = contents.map(getSelectedData.bind(null,type,range));
-  output = organiseOutput(output,fileNames);
+  let output = fileNames.reduce(getOutput.bind(null,readFile,existsFile,{type,range}),[]);
+  if(output.length == 1 && isExist(existsFile,fileNames[0])){
+    output = output[0].split('\n').slice(1)
+  }
   return output.join('\n');
 }
 

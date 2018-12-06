@@ -1,5 +1,5 @@
 const { head } = require('./src/lib.js');
 
-const readFile = require('fs').readFileSync;
+const { readFileSync, existsSync } = require('fs')
 
-console.log(head(process.argv.slice(2),readFile));
+console.log(head(process.argv.slice(2),readFileSync,existsSync));
