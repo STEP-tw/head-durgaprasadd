@@ -45,10 +45,20 @@ const getSelectedData = function(type,range,content){
   return data.slice(0,range).join(delimiter[type]);
 }
 
+const organiseOutput = function(output,fileNames){
+  if(output.length == 1){
+    return output;
+  }
+  fileNames = fileNames.map(content => '==> '+content+' <==');
+  output = output.map(content => fileNames[output.indexOf(content)]+'\n'+content+'\n');
+  return output;
+}
+
 const head = function(args,readFile){
   let { type, range, fileNames } = organiseInputs(args);
   let contents = fileNames.map(fileName => readFile(fileName,'utf-8'));
   let output = contents.map(getSelectedData.bind(null,type,range));
+  output = organiseOutput(output,fileNames);
   return output.join('\n');
 }
 
@@ -61,5 +71,6 @@ module.exports = {
   isFile,
   findFileNames,
   getSelectedData,
-  head
+  head,
+  organiseOutput
 }

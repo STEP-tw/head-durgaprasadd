@@ -8,7 +8,8 @@ const {
   isFile,
   findFileNames,
   getSelectedData,
-  head
+  head,
+  organiseOutput
 } = require('../src/lib.js');
 
 describe("isCharacterType",function(){
@@ -150,5 +151,23 @@ describe("head",function(){
     assert.deepEqual(head(['-n','1','text'],readFile),'text');
     assert.deepEqual(head(['-n','4','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
     assert.deepEqual(head(['-n','10','t\ne\nx\nt'],readFile),'t\ne\nx\nt');
+  })
+})
+
+describe("organiseOutput",function(){
+  it("should return empty array when both inputs are empty",function(){
+    assert.deepEqual(organiseOutput([],[]),[]);
+  })
+  it("should return empty array when first argument is empty",function(){
+    assert.deepEqual(organiseOutput([],[1]),[]);
+    assert.deepEqual(organiseOutput([],['text']),[]);
+  })
+  it("should return array of without fileName when array is length of 1",function(){
+    assert.deepEqual(organiseOutput([1],[1]),[1]);
+    assert.deepEqual(organiseOutput(['sample'],['text']),['sample']);
+  })
+  it("should return array of with fileName when array is length of more than 1",function(){
+    assert.deepEqual(organiseOutput([1,2],[1,2]),['==> 1 <==\n1\n','==> 2 <==\n2\n']);
+    assert.deepEqual(organiseOutput(['sample','text'],['cat','dog']),['==> cat <==\nsample\n', '==> dog <==\ntext\n']);
   })
 })
