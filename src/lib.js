@@ -15,10 +15,15 @@ const isNumberFound = function(string){
   return isNumber;
 }
 
-const findRange = function(args){
-  let range = ''+args.filter(isNumberFound);
-  range = +range||+range.slice(2)||10;
-  return Math.max(range,-range);
+const findRange = function(firstArg,SecondArg){
+  let range;
+  if(firstArg[0] == '-'){
+    range = firstArg.slice(1);
+  }
+  if(firstArg.slice(0,2) == '-c' || firstArg.slice(0,2) == '-n'){
+    range = firstArg.slice(2) || SecondArg;
+  }
+  return range || 10;
 }
 
 const isFile = function(string){
@@ -34,7 +39,7 @@ const findFileNames = function(args){
 
 const organiseInputs = function(args){
   let type = findType(args[0]);
-  let range = findRange(args.slice(0,2));
+  let range = findRange(args[0],args[1]);
   let fileNames = findFileNames(args);
   return { type, range, fileNames }
 }
@@ -56,6 +61,9 @@ const organiseOutput = function(output,fileNames){
 
 const head = function(args,readFile){
   let { type, range, fileNames } = organiseInputs(args);
+  if(!(+range > 0)){
+    return 'head: illegal line count -- '+range;
+  }
   let contents = fileNames.map(fileName => readFile(fileName,'utf-8'));
   let output = contents.map(getSelectedData.bind(null,type,range));
   output = organiseOutput(output,fileNames);
