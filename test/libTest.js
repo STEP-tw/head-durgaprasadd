@@ -128,6 +128,12 @@ const readFile = function(file){
 }
 
 describe("head",function(){
+  it("should return error message for wrong range",function(){
+    assert.deepEqual(head(['-n','-10','something']),'head: illegal line count -- -10');
+    assert.deepEqual(head(['-n','-10x','something']),'head: illegal line count -- -10x');
+    assert.deepEqual(head(['-c','-10','something']),'head: illegal byte count -- -10');
+    assert.deepEqual(head(['-c','-10x','something']),'head: illegal byte count -- -10x');
+  })
   it("should return range of characters in file",function(){
     assert.deepEqual(head(['-c','1','text'],readFile),'t');
     assert.deepEqual(head(['-c','4','text'],readFile),'text');

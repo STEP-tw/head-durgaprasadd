@@ -56,8 +56,9 @@ const organiseOutput = function(output,fileNames){
 
 const head = function(args,readFile){
   let { type, range, fileNames } = organiseInputs(args);
+  let message = {c:'byte',n:'line'};
   if(!(+range > 0)){
-    return 'head: illegal line count -- '+range;
+    return 'head: illegal '+message[type]+' count -- '+range;
   }
   let contents = fileNames.map(fileName => readFile(fileName,'utf-8'));
   let output = contents.map(getSelectedData.bind(null,type,range));
