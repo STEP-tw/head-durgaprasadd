@@ -62,15 +62,6 @@ const getOutput = function(readFile,existsFile,{type,range},result,fileName){
   return result;
 }
 
-const organiseOutput = function(output,fileNames){
-  if(output.length == 1){
-    return output;
-  }
-  fileNames = fileNames.map(content => '==> '+content+' <==');
-  output = output.map(content => fileNames[output.indexOf(content)]+'\n'+content+'\n');
-  return output;
-}
-
 const head = function(args,readFile,existsFile){
   let { type, range, fileNames } = organiseInputs(args);
   let message = {c:'byte',n:'line'};
@@ -92,6 +83,5 @@ module.exports = {
   isFile,
   findFileNames,
   getSelectedData,
-  head,
-  organiseOutput
+  head
 }
