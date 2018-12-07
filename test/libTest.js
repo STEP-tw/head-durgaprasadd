@@ -168,6 +168,7 @@ const readFile = function(file) {
   return file;
 };
 const existsFile = () => true;
+const notExistsFile = () => false;
 
 describe('head', function() {
   it('should return error message for wrong range', function() {
@@ -205,6 +206,12 @@ describe('head', function() {
     assert.deepEqual(
       head(['-n', '10', 'sample'], readFile, existsFile),
       'sample\n',
+    );
+  });
+  it('should return error message for missing file', function() {
+    assert.deepEqual(
+      head(['-n', '10', 'text'], readFile, notExistsFile),
+      'head: text: No such file or directory',
     );
   });
 });
