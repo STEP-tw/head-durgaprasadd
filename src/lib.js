@@ -15,7 +15,8 @@ const findRange = function(firstArg, SecondArg) {
   if (firstArg[0] == '-') {
     range = firstArg.slice(1);
   }
-  if (firstArg.slice(0, 2) == '-c' || firstArg.slice(0, 2) == '-n') {
+  let firstTwoCharacters = firstArg.slice(0, 2);
+  if (firstTwoCharacters == '-c' || firstTwoCharacters == '-n') {
     range = firstArg.slice(2) || SecondArg;
   }
   return range || 10;
