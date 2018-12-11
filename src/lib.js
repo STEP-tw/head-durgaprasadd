@@ -1,9 +1,10 @@
 const { organiseInputs } = require("./parser.js");
 
-const getSelectedData = function(type, range, content) {
+const getSelectedData = function(type, range, content,command) {
   let delimiter = { c: "", n: "\n" };
   let data = content.split(delimiter[type]);
-  return data.slice(0, range).join(delimiter[type]);
+  range = { head: [0, range], tail: [-range] };
+  return data.slice(range[command][0], range[command][1]).join(delimiter[type]);
 };
 
 const isExist = function(existsFile, fileName) {
@@ -20,7 +21,7 @@ const getOutput = function(
 ) {
   if (isExist(existsFile, fileName)) {
     let content = readFile(fileName, "utf-8");
-    let data = getSelectedData(type, range, content);
+    let data = getSelectedData(type, range, content, command);
     let headline = "==> " + fileName + " <==";
     result.push(headline + "\n" + data + "\n");
     return result;
