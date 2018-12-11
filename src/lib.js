@@ -53,6 +53,7 @@ const isExist = function(existsFile, fileName) {
 const getOutput = function(
   readFile,
   existsFile,
+  command,
   { type, range },
   result,
   fileName
@@ -64,7 +65,7 @@ const getOutput = function(
     result.push(headline + "\n" + data + "\n");
     return result;
   }
-  let message = "head: " + fileName + ": No such file or directory";
+  let message = command + ": " + fileName + ": No such file or directory";
   result.push(message);
   return result;
 };
@@ -79,7 +80,7 @@ const head = function(args, readFile, existsFile, command = "head") {
     return command + ": illegal " + message[command][type] + " -- " + range;
   }
   let output = fileNames.reduce(
-    getOutput.bind(null, readFile, existsFile, { type, range }),
+    getOutput.bind(null, readFile, existsFile, command, { type, range }),
     []
   );
   if (output.length == 1 && isExist(existsFile, fileNames[0])) {
@@ -93,7 +94,7 @@ const tail = function(args, readFile, existsFile) {
   if (+range == 0) {
     return "";
   }
-  return head(args, readFile, existsFile,"tail");
+  return head(args, readFile, existsFile, "tail");
 };
 
 module.exports = {
