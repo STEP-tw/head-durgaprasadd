@@ -5,11 +5,9 @@ const {
   organiseInputs,
   findRange,
   isFile,
-  findFileNames,
-  getSelectedData,
-  head,
-  tail
-} = require("../src/lib.js");
+  findFileNames
+} = require("../src/parser.js");
+const { getSelectedData, tail, head } = require("../src/lib.js");
 
 describe("isCharacterType", function() {
   it("should return true when input contains -c", function() {
