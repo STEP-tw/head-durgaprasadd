@@ -13,6 +13,6 @@
   node ./tail.js -c5 file1 file2
   node ./tail.js -c 5 file1 file2
 */
-const { head } = require("./src/lib.js");
+const { tail } = require("./src/lib.js");
 const { readFileSync, existsSync } = require("fs");
-console.log(head(process.argv.slice(2), readFileSync, existsSync));
+console.log(tail(process.argv.slice(2), readFileSync, existsSync));
