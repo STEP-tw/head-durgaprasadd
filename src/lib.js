@@ -1,6 +1,6 @@
 const { organiseInputs } = require("./parser.js");
 
-const getSelectedData = function(type, range, content,command) {
+const getSelectedData = function(type, range, content, command) {
   let delimiter = { c: "", n: "\n" };
   let data = content.split(delimiter[type]);
   range = { head: [0, range], tail: [-range] };

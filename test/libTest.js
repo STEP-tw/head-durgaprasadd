@@ -150,16 +150,19 @@ describe("organiseInputs", function() {
 
 describe("getSelectedData", function() {
   it("should return empty string when range is 0", function() {
-    assert.deepEqual(getSelectedData("c", 0, "sampleText",'head'), "");
-    assert.deepEqual(getSelectedData("n", 0, "sample\nText",'head'), "");
+    assert.deepEqual(getSelectedData("c", 0, "sampleText", "head"), "");
+    assert.deepEqual(getSelectedData("n", 0, "sample\nText", "head"), "");
   });
   it("should return given range of characters in a string when type is c", function() {
-    assert.deepEqual(getSelectedData("c", 1, "sampleText",'head'), "s");
-    assert.deepEqual(getSelectedData("c", 2, "sample\nText",'head'), "sa");
+    assert.deepEqual(getSelectedData("c", 1, "sampleText", "head"), "s");
+    assert.deepEqual(getSelectedData("c", 2, "sample\nText", "head"), "sa");
   });
   it("should return given range of lines in a string when type is n", function() {
-    assert.deepEqual(getSelectedData("n", 1, "sample\nText",'head'), "sample");
-    assert.deepEqual(getSelectedData("n", 2, "sample\nText",'head'), "sample\nText");
+    assert.deepEqual(getSelectedData("n", 1, "sample\nText", "head"), "sample");
+    assert.deepEqual(
+      getSelectedData("n", 2, "sample\nText", "head"),
+      "sample\nText"
+    );
   });
 });
 
