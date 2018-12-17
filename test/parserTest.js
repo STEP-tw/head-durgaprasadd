@@ -11,145 +11,200 @@ const assert = require("assert");
 
 describe("isCharacterType", function() {
   it("should return true when input contains -c", function() {
-    assert.deepEqual(isCharacterType("-c"), true);
-    assert.deepEqual(isCharacterType("-c0"), true);
-    assert.deepEqual(isCharacterType("-c10"), true);
+    const expected = true;
+    let actual = isCharacterType("-c");
+    assert.deepEqual(actual, expected);
+
+    actual = isCharacterType("-c0");
+    assert.deepEqual(actual, expected);
+
+    actual = isCharacterType("-c10");
+    assert.deepEqual(actual, expected);
   });
 
   it("should return false when input not contains -c", function() {
-    assert.deepEqual(isCharacterType(""), false);
-    assert.deepEqual(isCharacterType("-"), false);
-    assert.deepEqual(isCharacterType("-n"), false);
-    assert.deepEqual(isCharacterType("10"), false);
+    const expected = false;
+    let actual = isCharacterType("");
+    assert.deepEqual(actual, expected);
+
+    actual = isCharacterType("-");
+    assert.deepEqual(actual, expected);
+
+    actual = isCharacterType("-n");
+    assert.deepEqual(actual, expected);
+
+    actual = isCharacterType("10");
+    assert.deepEqual(actual, expected);
   });
 });
 
 describe("findType", function() {
   it("should return c when input contains -c", function() {
-    assert.deepEqual(findType("-c"), "c");
-    assert.deepEqual(findType("-c0"), "c");
-    assert.deepEqual(findType("-c10"), "c");
+    const expected = "c";
+    let actual = findType("-c");
+    assert.deepEqual(actual, expected);
+
+    actual = findType("-c0");
+    assert.deepEqual(actual, expected);
+
+    actual = findType("-c10");
+    assert.deepEqual(actual, expected);
   });
 
   it("should return n when input not contains -c", function() {
-    assert.deepEqual(findType(""), "n");
-    assert.deepEqual(findType("-"), "n");
-    assert.deepEqual(findType("-n"), "n");
-    assert.deepEqual(findType("-n10"), "n");
+    const expected = "n";
+    let actual = findType("");
+    assert.deepEqual(actual, expected);
+
+    actual = findType("-");
+    assert.deepEqual(actual, expected);
+
+    actual = findType("-n");
+    assert.deepEqual(actual, expected);
+
+    actual = findType("-n10");
+    assert.deepEqual(actual, expected);
   });
 });
 
 describe("findRange", function() {
   it("should return default 10 when input not contains any number", function() {
-    assert.deepEqual(findRange("text"), 10);
-    assert.deepEqual(findRange(""), 10);
-    assert.deepEqual(findRange("n"), 10);
+    const expected = 10;
+    let actual = findRange("text");
+    assert.deepEqual(actual, expected);
+
+    actual = findRange("");
+    assert.deepEqual(actual, expected);
+
+    actual = findRange("n");
+    assert.deepEqual(actual, expected);
   });
 
   it("should return number present in input when input contains number", function() {
+    let actual = findRange("-1");
+    let expected = 1;
     assert.deepEqual(findRange("-1"), 1);
-    assert.deepEqual(findRange("-10"), 10);
-    assert.deepEqual(findRange("-n10", "c"), 10);
+
+    actual = findRange("-12");
+    expected = 12;
+    assert.deepEqual(actual, expected);
+
+    actual = findRange("-n5", "text");
+    expected = 5;
+    assert.deepEqual(actual, expected);
   });
 });
 
 describe("isFile", function() {
   it("should return true when input is text", function() {
-    assert.deepEqual(isFile("node.js"), true);
-    assert.deepEqual(isFile("node"), true);
-    assert.deepEqual(isFile("js"), true);
+    const expected = true;
+    let actual = isFile("node.js");
+    assert.deepEqual(actual, expected);
+
+    actual = isFile("text");
+    assert.deepEqual(actual, expected);
+
+    actual = isFile("readme.md");
+    assert.deepEqual(actual, expected);
   });
 
   it("should return false when input is type or number", function() {
-    assert.deepEqual(isFile("10"), false);
-    assert.deepEqual(isFile("-c"), false);
-    assert.deepEqual(isFile("-n10"), false);
+    const expected = false;
+    let actual = isFile(10);
+    assert.deepEqual(actual, expected);
+
+    actual = isFile("-c");
+    assert.deepEqual(actual, expected);
+
+    actual = isFile("-n10");
+    assert.deepEqual(actual, expected);
   });
 });
 
 describe("findFileNames", function() {
   it("should return empty array when input is empty array", function() {
-    assert.deepEqual(findFileNames([]), []);
+    let actual = findFileNames([]);
+    let expected = [];
+    assert.deepEqual(actual, expected);
   });
 
   it("should return empty array when input not contains any fileNames", function() {
-    assert.deepEqual(findFileNames(["10"]), []);
-    assert.deepEqual(findFileNames(["-n"]), []);
-    assert.deepEqual(findFileNames(["-c5"]), []);
+    const expected = [];
+    let actual = findFileNames(["10"]);
+    assert.deepEqual(actual, expected);
+
+    actual = findFileNames(["-n"]);
+    assert.deepEqual(actual, expected);
+
+    actual = findFileNames(["-c5"]);
+    assert.deepEqual(actual, expected);
   });
 
   it("should return array of fileNames when input contains fileNames", function() {
-    assert.deepEqual(findFileNames(["text"]), ["text"]);
-    assert.deepEqual(findFileNames(["file"]), ["file"]);
-    assert.deepEqual(findFileNames(["text", "file"]), ["text", "file"]);
+    let actual = findFileNames(["text"]);
+    let expected = ["text"];
+    assert.deepEqual(actual, expected);
+
+    actual = findFileNames(["file"]);
+    expected = ["file"];
+    assert.deepEqual(actual, expected);
+
+    actual = findFileNames(["text", "file"]);
+    expected = ["text", "file"];
+    assert.deepEqual(actual, expected);
   });
 });
 
 describe("organiseInputs", function() {
   it("should return default object of type n ,range 10 and array of fileNames when input array not contains any type and range", function() {
-    assert.deepEqual(organiseInputs([""]), {
-      type: "n",
-      range: 10,
-      fileNames: [""]
-    });
-    assert.deepEqual(organiseInputs(["text"]), {
-      type: "n",
-      range: 10,
-      fileNames: ["text"]
-    });
-    assert.deepEqual(organiseInputs(["-"]), {
-      type: "n",
-      range: 10,
-      fileNames: []
-    });
+    let actual = organiseInputs([""]);
+    let expected = { type: "n", range: 10, fileNames: [""] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["text"]);
+    expected = { type: "n", range: 10, fileNames: ["text"] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-"]);
+    expected = { type: "n", range: "10", fileNames: [] };
+    assert.deepEqual(actual, expected);
   });
 
   it("should return object of type c ,range 10 and array of fileNames when input array contains type of -c and not range", function() {
-    assert.deepEqual(organiseInputs(["-c10"]), {
-      type: "c",
-      range: 10,
-      fileNames: []
-    });
-    assert.deepEqual(organiseInputs(["-c", "10", "text"]), {
-      type: "c",
-      range: 10,
-      fileNames: ["text"]
-    });
+    let actual = organiseInputs(["-c10"]);
+    let expected = { type: "c", range: 10, fileNames: [] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-c", "10", "text"]);
+    expected = { type: "c", range: 10, fileNames: ["text"] };
+    assert.deepEqual(actual, expected);
   });
 
   it("should return object of type c, given range and empty array of fileNames when input array contains type of -c and range", function() {
-    assert.deepEqual(organiseInputs(["-c10"]), {
-      type: "c",
-      range: 10,
-      fileNames: []
-    });
-    assert.deepEqual(organiseInputs(["-c", "5"]), {
-      type: "c",
-      range: 5,
-      fileNames: []
-    });
-    assert.deepEqual(organiseInputs(["-c", "-5"]), {
-      type: "c",
-      range: -5,
-      fileNames: []
-    });
+    let actual = organiseInputs(["-c0"]);
+    let expected = { type: "c", range: 0, fileNames: [] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-c", "5"]);
+    expected = { type: "c", range: 5, fileNames: [] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-c", "-5"]);
+    expected = { type: "c", range: -5, fileNames: [] };
+    assert.deepEqual(actual, expected);
   });
 
   it("should return object of type n, given range and empty array of fileNames when input array contains type of -n and range", function() {
-    assert.deepEqual(organiseInputs(["-n1"]), {
-      type: "n",
-      range: 1,
-      fileNames: []
-    });
-    assert.deepEqual(organiseInputs(["-n", "5"]), {
-      type: "n",
-      range: 5,
-      fileNames: []
-    });
-    assert.deepEqual(organiseInputs(["-5"]), {
-      type: "n",
-      range: 5,
-      fileNames: []
-    });
+    let actual = organiseInputs(["-n1"]);
+    let expected = { type: "n", range: 1, fileNames: [] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-n", "5"]);
+    expected = { type: "n", range: 5, fileNames: [] };
+    assert.deepEqual(actual, expected);
+
+    actual = organiseInputs(["-5"]);
+    expected = { type: "n", range: 5, fileNames: [] };
+    assert.deepEqual(actual, expected);
   });
 });
