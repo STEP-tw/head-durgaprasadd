@@ -1,3 +1,4 @@
 *.sw*
 coverage
 .nyc*
+.vscode
