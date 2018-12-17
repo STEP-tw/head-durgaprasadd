@@ -1,3 +1,3 @@
-const {head} = require('./src/lib.js');
-const {readFileSync, existsSync} = require('fs');
-console.log(head(process.argv.slice(2), readFileSync, existsSync));
+const { head } = require("./src/lib.js");
+const fs = require("fs");
+console.log(head(process.argv.slice(2), fs));

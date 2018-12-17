@@ -11,16 +11,9 @@ const isExist = function(existsFile, fileName) {
   return existsFile(fileName);
 };
 
-const getOutput = function(
-  readFile,
-  existsFile,
-  command,
-  { type, range },
-  result,
-  fileName
-) {
-  if (isExist(existsFile, fileName)) {
-    let content = readFile(fileName, "utf-8");
+const getOutput = function(fs, command, { type, range }, result, fileName) {
+  if (isExist(fs.existsSync, fileName)) {
+    let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(type, range, content, command);
     let headline = "==> " + fileName + " <==";
     result.push(headline + "\n" + data + "\n");
@@ -31,7 +24,7 @@ const getOutput = function(
   return result;
 };
 
-const head = function(args, readFile, existsFile, command = "head") {
+const head = function(args, fs, command = "head") {
   let { type, range, fileNames } = organiseInputs(args);
   let message = {
     head: { c: "byte count", n: "line count" },
@@ -41,21 +34,21 @@ const head = function(args, readFile, existsFile, command = "head") {
     return command + ": illegal " + message[command][type] + " -- " + range;
   }
   let output = fileNames.reduce(
-    getOutput.bind(null, readFile, existsFile, command, { type, range }),
+    getOutput.bind(null, fs, command, { type, range }),
     []
   );
-  if (output.length == 1 && isExist(existsFile, fileNames[0])) {
+  if (output.length == 1 && isExist(fs.existsSync, fileNames[0])) {
     output = output[0].split("\n").slice(1);
   }
   return output.join("\n");
 };
 
-const tail = function(args, readFile, existsFile) {
+const tail = function(args, fs) {
   let { range } = organiseInputs(args);
   if (+range == 0) {
     return "";
   }
-  return head(args, readFile, existsFile, "tail");
+  return head(args, fs, "tail");
 };
 
 module.exports = {

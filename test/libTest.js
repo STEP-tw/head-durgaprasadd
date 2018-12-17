@@ -192,42 +192,81 @@ describe("head", function() {
     );
   });
   it("should return range of characters in file", function() {
-    assert.deepEqual(head(["-c", "1", "text"], readFile, existsFile), "t\n");
-    assert.deepEqual(head(["-c", "4", "text"], readFile, existsFile), "text\n");
     assert.deepEqual(
-      head(["-c", "10", "text"], readFile, existsFile),
+      head(["-c", "1", "text"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
+      "t\n"
+    );
+    assert.deepEqual(
+      head(["-c", "4", "text"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
+      "text\n"
+    );
+    assert.deepEqual(
+      head(["-c", "10", "text"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
       "text\n"
     );
   });
   it("should return range of lines in file", function() {
-    assert.deepEqual(head(["-n", "1", "text"], readFile, existsFile), "text\n");
     assert.deepEqual(
-      head(["-n", "4", "nothing"], readFile, existsFile),
+      head(["-n", "1", "text"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
+      "text\n"
+    );
+    assert.deepEqual(
+      head(["-n", "4", "nothing"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
       "nothing\n"
     );
     assert.deepEqual(
-      head(["-n", "10", "sample"], readFile, existsFile),
+      head(["-n", "10", "sample"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
       "sample\n"
     );
   });
   it("should return error message for missing file", function() {
     assert.deepEqual(
-      head(["-n", "10", "text"], readFile, notExistsFile),
+      head(["-n", "10", "text"], {
+        readFileSync: readFile,
+        existsSync: notExistsFile
+      }),
       "head: text: No such file or directory"
     );
   });
 });
 describe("tail", () => {
   it("should return nothing for range 0", () => {
-    assert.deepEqual(tail(["-n0", "file"], readFile, existsFile), "");
+    assert.deepEqual(
+      tail(["-n0", "file"], { readFileSync: readFile, existsSync: existsFile }),
+      ""
+    );
   });
   it("should return error for invalid values of -n and -c", () => {
     assert.deepEqual(
-      tail(["-n0x", "file"], readFile, existsFile),
+      tail(["-n0x", "file"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
       "tail: illegal offset -- 0x"
     );
     assert.deepEqual(
-      tail(["-c0x", "file"], readFile, existsFile),
+      tail(["-c0x", "file"], {
+        readFileSync: readFile,
+        existsSync: existsFile
+      }),
       "tail: illegal offset -- 0x"
     );
   });
