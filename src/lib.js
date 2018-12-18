@@ -10,12 +10,8 @@ const getSelectedData = function(type, range, content, command) {
   return selectedData;
 };
 
-const isExist = function(existsSync, fileName) {
-  return existsSync(fileName);
-};
-
 const getOutput = function(fs, command, { type, range }, result, fileName) {
-  if (isExist(fs.existsSync, fileName)) {
+  if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(type, range, content, command);
     let headline = "==> " + fileName + " <==";
