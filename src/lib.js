@@ -10,8 +10,8 @@ const getSelectedData = function(type, range, content, command) {
   return selectedData;
 };
 
-const isExist = function(existsFile, fileName) {
-  return existsFile(fileName);
+const isExist = function(existsSync, fileName) {
+  return existsSync(fileName);
 };
 
 const getOutput = function(fs, command, { type, range }, result, fileName) {
