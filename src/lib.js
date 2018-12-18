@@ -1,7 +1,7 @@
 const { parse } = require("./parser.js");
 
 const getSelectedData = function(option, range, content, command) {
-  let delimiter = { c: "", n: "\n" };
+  let delimiter = { byte: "", line: "\n" };
   let data = content.split(delimiter[option]);
   range = { head: [0, range], tail: [-range] };
   let selectedData = data
@@ -26,8 +26,8 @@ const getOutput = function(fs, command, { option, range }, result, fileName) {
 const head = function(args, fs, command = "head") {
   let { option, range, fileNames } = parse(args);
   let message = {
-    head: { c: "byte count", n: "line count" },
-    tail: { c: "offset", n: "offset" }
+    head: { byte: "byte count", line: "line count" },
+    tail: { byte: "offset", line: "offset" }
   };
   if (!(+range > 0)) {
     return command + ": illegal " + message[command][option] + " -- " + range;

@@ -18,31 +18,31 @@ const fs = {
 
 describe("getSelectedData", function() {
   it("should return empty string when range is 0", function() {
-    let actual = getSelectedData("c", 0, "sampleText", "head");
+    let actual = getSelectedData("byte", 0, "sampleText", "head");
     let expected = "";
     assert.deepEqual(actual, expected);
 
-    actual = getSelectedData("n", 0, "sample\nText", "head");
+    actual = getSelectedData("line", 0, "sample\nText", "head");
     expected = "";
     assert.deepEqual(actual, expected);
   });
 
-  it("should return given range of characters in a string when type is c", function() {
-    let actual = getSelectedData("c", 1, "sampleText", "head");
+  it("should return given range of characters in a string when option is c", function() {
+    let actual = getSelectedData("byte", 1, "sampleText", "head");
     let expected = "s";
     assert.deepEqual(actual, expected);
 
-    actual = getSelectedData("c", 2, "sample\nText", "head");
+    actual = getSelectedData("byte", 2, "sample\nText", "head");
     expected = "sa";
     assert.deepEqual(actual, expected);
   });
 
-  it("should return given range of lines in a string when type is n", function() {
-    let actual = getSelectedData("n", 1, "sample\nText", "head");
+  it("should return given range of lines in a string when option is n", function() {
+    let actual = getSelectedData("line", 1, "sample\nText", "head");
     let expected = "sample";
     assert.deepEqual(actual, expected);
 
-    actual = getSelectedData("n", 2, "sample\nText", "head");
+    actual = getSelectedData("line", 2, "sample\nText", "head");
     expected = "sample\nText";
     assert.deepEqual(actual, expected);
   });

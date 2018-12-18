@@ -5,9 +5,9 @@ const isCharacterOption = function(string) {
 
 const findOption = function(arg) {
   if (isCharacterOption(arg)) {
-    return "c";
+    return "byte";
   }
-  return "n";
+  return "line";
 };
 
 const findRange = function(firstArg, SecondArg) {

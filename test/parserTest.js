@@ -40,7 +40,7 @@ describe("isCharacterOption", function() {
 
 describe("findoption", function() {
   it("should return c when input contains -c", function() {
-    const expected = "c";
+    const expected = "byte";
     let actual = findOption("-c");
     assert.deepEqual(actual, expected);
 
@@ -52,7 +52,7 @@ describe("findoption", function() {
   });
 
   it("should return n when input not contains -c", function() {
-    const expected = "n";
+    const expected = "line";
     let actual = findOption("");
     assert.deepEqual(actual, expected);
 
@@ -158,53 +158,53 @@ describe("findFileNames", function() {
 describe("parse", function() {
   it("should return default object of option n ,range 10 and array of fileNames when input array not contains any option and range", function() {
     let actual = parse([""]);
-    let expected = { option: "n", range: 10, fileNames: [""] };
+    let expected = { option: "line", range: 10, fileNames: [""] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["text"]);
-    expected = { option: "n", range: 10, fileNames: ["text"] };
+    expected = { option: "line", range: 10, fileNames: ["text"] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-"]);
-    expected = { option: "n", range: "10", fileNames: [] };
+    expected = { option: "line", range: "10", fileNames: [] };
     assert.deepEqual(actual, expected);
   });
 
   it("should return object of option c ,range 10 and array of fileNames when input array contains option of -c and not range", function() {
     let actual = parse(["-c10"]);
-    let expected = { option: "c", range: 10, fileNames: [] };
+    let expected = { option: "byte", range: 10, fileNames: [] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-c", "10", "text"]);
-    expected = { option: "c", range: 10, fileNames: ["text"] };
+    expected = { option: "byte", range: 10, fileNames: ["text"] };
     assert.deepEqual(actual, expected);
   });
 
   it("should return object of option c, given range and empty array of fileNames when input array contains option of -c and range", function() {
     let actual = parse(["-c0"]);
-    let expected = { option: "c", range: 0, fileNames: [] };
+    let expected = { option: "byte", range: 0, fileNames: [] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-c", "5"]);
-    expected = { option: "c", range: 5, fileNames: [] };
+    expected = { option: "byte", range: 5, fileNames: [] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-c", "-5"]);
-    expected = { option: "c", range: -5, fileNames: [] };
+    expected = { option: "byte", range: -5, fileNames: [] };
     assert.deepEqual(actual, expected);
   });
 
   it("should return object of option n, given range and empty array of fileNames when input array contains option of -n and range", function() {
     let actual = parse(["-n1"]);
-    let expected = { option: "n", range: 1, fileNames: [] };
+    let expected = { option: "line", range: 1, fileNames: [] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-n", "5"]);
-    expected = { option: "n", range: 5, fileNames: [] };
+    expected = { option: "line", range: 5, fileNames: [] };
     assert.deepEqual(actual, expected);
 
     actual = parse(["-5"]);
-    expected = { option: "n", range: 5, fileNames: [] };
+    expected = { option: "line", range: 5, fileNames: [] };
     assert.deepEqual(actual, expected);
   });
 });
