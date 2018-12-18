@@ -9,17 +9,15 @@ const getSelectedData = function(option, range, content, command) {
     .join(delimiter[option]);
 };
 
-const getOutput = function(fs, command, { option, range }, result, fileName) {
+const getOutput = function(fs, command, option, range, fileName) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(option, range, content, command);
     let headline = "==> " + fileName + " <==";
-    result.push(headline + "\n" + data + "\n");
-    return result;
+    return headline + "\n" + data + "\n";
   }
   let message = command + ": " + fileName + ": No such file or directory";
-  result.push(message);
-  return result;
+  return message;
 };
 
 const head = function(args, fs, command = "head") {
@@ -31,10 +29,7 @@ const head = function(args, fs, command = "head") {
   if (!(+range > 0)) {
     return command + ": illegal " + message[command][option] + " -- " + range;
   }
-  let output = fileNames.reduce(
-    getOutput.bind(null, fs, command, { option, range }),
-    []
-  );
+  let output = fileNames.map(getOutput.bind(null, fs, command, option, range));
   if (output.length == 1 && fs.existsSync(fileNames[0])) {
     output = output[0].split("\n").slice(1);
   }
