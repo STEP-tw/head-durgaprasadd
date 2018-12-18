@@ -4,7 +4,10 @@ const getSelectedData = function(type, range, content, command) {
   let delimiter = { c: "", n: "\n" };
   let data = content.split(delimiter[type]);
   range = { head: [0, range], tail: [-range] };
-  return data.slice(range[command][0], range[command][1]).join(delimiter[type]);
+  let selectedData = data
+    .slice(range[command][0], range[command][1])
+    .join(delimiter[type]);
+  return selectedData;
 };
 
 const isExist = function(existsFile, fileName) {
