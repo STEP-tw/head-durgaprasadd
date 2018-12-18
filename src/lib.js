@@ -1,13 +1,12 @@
 const { parse } = require("./parser.js");
 
 const getSelectedData = function(option, range, content, command) {
-  let delimiter = { byte: "", line: "\n" };
-  let data = content.split(delimiter[option]);
-  range = { head: [0, range], tail: [-range] };
-  let selectedData = data
-    .slice(range[command][0], range[command][1])
+  const delimiter = { byte: "", line: "\n" };
+  const rangeBound = { head: [0, range], tail: [-range] };
+  return content
+    .split(delimiter[option])
+    .slice(rangeBound[command][0], rangeBound[command][1])
     .join(delimiter[option]);
-  return selectedData;
 };
 
 const getOutput = function(fs, command, { option, range }, result, fileName) {
