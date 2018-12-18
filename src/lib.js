@@ -1,4 +1,4 @@
-const { organiseInputs } = require("./parser.js");
+const { parse } = require("./parser.js");
 
 const getSelectedData = function(type, range, content, command) {
   let delimiter = { c: "", n: "\n" };
@@ -24,7 +24,7 @@ const getOutput = function(fs, command, { type, range }, result, fileName) {
 };
 
 const head = function(args, fs, command = "head") {
-  let { type, range, fileNames } = organiseInputs(args);
+  let { type, range, fileNames } = parse(args);
   let message = {
     head: { c: "byte count", n: "line count" },
     tail: { c: "offset", n: "offset" }
@@ -36,14 +36,14 @@ const head = function(args, fs, command = "head") {
     getOutput.bind(null, fs, command, { type, range }),
     []
   );
-  if (output.length == 1 && isExist(fs.existsSync, fileNames[0])) {
+  if (output.length == 1 && fs.existsSync(fileNames[0])) {
     output = output[0].split("\n").slice(1);
   }
   return output.join("\n");
 };
 
 const tail = function(args, fs) {
-  let { range } = organiseInputs(args);
+  let { range } = parse(args);
   if (+range == 0) {
     return "";
   }

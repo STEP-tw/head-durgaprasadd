@@ -33,7 +33,7 @@ const findFileNames = function(args) {
   return fileNames;
 };
 
-const organiseInputs = function(args) {
+const parse = function(args) {
   let type = findType(args[0]);
   let range = findRange(args[0], args[1]);
   let fileNames = findFileNames(args);
@@ -41,7 +41,7 @@ const organiseInputs = function(args) {
 };
 
 module.exports = {
-  organiseInputs,
+  parse,
   isCharacterType,
   findType,
   findRange,
