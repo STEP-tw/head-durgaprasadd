@@ -1,10 +1,10 @@
-const isCharacterType = function(string) {
+const isCharacterOption = function(string) {
   let firstTwoCharacters = string.slice(0, 2);
   return firstTwoCharacters == "-c";
 };
 
-const findType = function(arg) {
-  if (isCharacterType(arg)) {
+const findOption = function(arg) {
+  if (isCharacterOption(arg)) {
     return "c";
   }
   return "n";
@@ -23,9 +23,9 @@ const findRange = function(firstArg, SecondArg) {
 };
 
 const isFile = function(string) {
-  let isType = string[0] == "-";
+  let isOption = string[0] == "-";
   let isNumber = +string;
-  return !isType && !isNumber;
+  return !isOption && !isNumber;
 };
 
 const findFileNames = function(args) {
@@ -34,16 +34,16 @@ const findFileNames = function(args) {
 };
 
 const parse = function(args) {
-  let type = findType(args[0]);
+  let option = findOption(args[0]);
   let range = findRange(args[0], args[1]);
   let fileNames = findFileNames(args);
-  return { type, range, fileNames };
+  return { option, range, fileNames };
 };
 
 module.exports = {
   parse,
-  isCharacterType,
-  findType,
+  isCharacterOption,
+  findOption,
   findRange,
   isFile,
   findFileNames
