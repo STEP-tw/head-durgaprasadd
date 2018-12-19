@@ -26,7 +26,7 @@ const generateOutput = function(args, fs, command = "head") {
     head: { byte: "byte count", line: "line count" },
     tail: { byte: "offset", line: "offset" }
   };
-  if (!(+range > 0)) {
+  if (range <= 0 || isNaN(range)) {
     return command + ": illegal " + message[command][option] + " -- " + range;
   }
   let output = fileNames.map(getOutput.bind(null, fs, command, option, range));
