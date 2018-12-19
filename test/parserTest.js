@@ -110,7 +110,7 @@ describe("isFile", function() {
 
   it("should return false when input is option or number", function() {
     const expected = false;
-    let actual = isFile(10);
+    let actual = isFile("10");
     assert.deepEqual(actual, expected);
 
     actual = isFile("-c");

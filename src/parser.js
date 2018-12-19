@@ -1,6 +1,5 @@
 const isCharacterOption = function(string) {
-  let firstTwoCharacters = string.slice(0, 2);
-  return firstTwoCharacters == "-c";
+  return string.startsWith("-c");
 };
 
 const findOption = function(arg) {
@@ -10,20 +9,19 @@ const findOption = function(arg) {
   return "line";
 };
 
-const findRange = function(firstArg, SecondArg) {
+const findRange = function(firstArg, secondArg) {
   let range;
-  if (firstArg[0] == "-") {
+  if (firstArg.startsWith("-")) {
     range = firstArg.slice(1);
   }
-  let firstTwoCharacters = firstArg.slice(0, 2);
-  if (firstTwoCharacters == "-c" || firstTwoCharacters == "-n") {
-    range = firstArg.slice(2) || SecondArg;
+  if (firstArg.startsWith("-c") || firstArg.startsWith("-n")) {
+    range = firstArg.slice(2) || secondArg;
   }
   return range || 10;
 };
 
 const isFile = function(string) {
-  let isOption = string[0] == "-";
+  let isOption = string.startsWith("-");
   let isNumber = +string;
   return !isOption && !isNumber;
 };
