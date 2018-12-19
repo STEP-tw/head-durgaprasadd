@@ -12,6 +12,15 @@ const getSelectedData = function(option, range, content, command) {
 const addHeader = function(fileName) {
   return `==> ${fileName} <==`;
 };
+
+const errorMessageForIllegalCount = function(command, option, range) {
+  const message = {
+    head: { byte: "byte count", line: "line count" },
+    tail: { byte: "offset", line: "offset" }
+  };
+  return `${command}: illegal ${message[command][option]} -- ${range}`;
+};
+
 const getOutput = function(fs, command, option, range, fileName) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
@@ -24,14 +33,13 @@ const getOutput = function(fs, command, option, range, fileName) {
 
 const generateOutput = function(args, fs, command = "head") {
   let { option, range, fileNames } = parse(args);
-  let message = {
-    head: { byte: "byte count", line: "line count" },
-    tail: { byte: "offset", line: "offset" }
-  };
+
   if (range <= 0 || isNaN(range)) {
-    return command + ": illegal " + message[command][option] + " -- " + range;
+    return errorMessageForIllegalCount(command, option, range);
   }
+
   let output = fileNames.map(getOutput.bind(null, fs, command, option, range));
+
   if (output.length == 1 && fs.existsSync(fileNames[0])) {
     output = output[0].split("\n").slice(1);
   }
@@ -50,5 +58,6 @@ module.exports = {
   getSelectedData,
   tail,
   generateOutput,
-  addHeader
+  addHeader,
+  errorMessageForIllegalCount
 };
