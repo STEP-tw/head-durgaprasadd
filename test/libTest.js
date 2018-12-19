@@ -1,6 +1,6 @@
 const assert = require("assert");
 
-const { getSelectedData, tail, head } = require("../src/lib.js");
+const { getSelectedData, tail, generateOutput } = require("../src/lib.js");
 
 const fileContents = {
   file1: "sample\ntext",
@@ -48,55 +48,55 @@ describe("getSelectedData", function() {
   });
 });
 
-describe("head", function() {
+describe("generateOutput", function() {
   it("should return error message for wrong range", function() {
-    let actual = head(["-n", "-10", "something"]);
+    let actual = generateOutput(["-n", "-10", "something"]);
     let expected = "head: illegal line count -- -10";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-n", "-10x", "something"]);
+    actual = generateOutput(["-n", "-10x", "something"]);
     expected = "head: illegal line count -- -10x";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-c", "-10", "something"]);
+    actual = generateOutput(["-c", "-10", "something"]);
     expected = "head: illegal byte count -- -10";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-c", "-10x", "something"]);
+    actual = generateOutput(["-c", "-10x", "something"]);
     expected = "head: illegal byte count -- -10x";
     assert.deepEqual(actual, expected);
   });
 
   it("should return range of characters in file", function() {
-    let actual = head(["-c", "1", "file1"], fs);
+    let actual = generateOutput(["-c", "1", "file1"], fs);
     let expected = "s\n";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-c", "4", "file1"], fs);
+    actual = generateOutput(["-c", "4", "file1"], fs);
     expected = "samp\n";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-c", "10", "file1"], fs);
+    actual = generateOutput(["-c", "10", "file1"], fs);
     expected = "sample\ntex\n";
     assert.deepEqual(actual, expected);
   });
 
   it("should return range of lines in file", function() {
-    let actual = head(["-n", "1", "file1"], fs);
+    let actual = generateOutput(["-n", "1", "file1"], fs);
     let expected = "sample\n";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-n", "4", "file2"], fs);
+    actual = generateOutput(["-n", "4", "file2"], fs);
     expected = "a\nb\nc\nd\n";
     assert.deepEqual(actual, expected);
 
-    actual = head(["-n", "10", "file2"], fs);
+    actual = generateOutput(["-n", "10", "file2"], fs);
     expected = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\n";
     assert.deepEqual(actual, expected);
   });
 
   it("should return error message for missing file", function() {
-    let actual = head(["-n", "10", "text"], fs);
+    let actual = generateOutput(["-n", "10", "text"], fs);
     let expected = "head: text: No such file or directory";
     assert.deepEqual(actual, expected);
   });

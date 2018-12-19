@@ -20,7 +20,7 @@ const getOutput = function(fs, command, option, range, fileName) {
   return message;
 };
 
-const head = function(args, fs, command = "head") {
+const generateOutput = function(args, fs, command = "head") {
   let { option, range, fileNames } = parse(args);
   let message = {
     head: { byte: "byte count", line: "line count" },
@@ -41,11 +41,11 @@ const tail = function(args, fs) {
   if (+range == 0) {
     return "";
   }
-  return head(args, fs, "tail");
+  return generateOutput(args, fs, "tail");
 };
 
 module.exports = {
   getSelectedData,
-  head,
-  tail
+  tail,
+  generateOutput
 };
