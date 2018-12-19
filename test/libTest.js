@@ -1,6 +1,11 @@
 const assert = require("assert");
 
-const { getSelectedData, tail, generateOutput } = require("../src/lib.js");
+const {
+  getSelectedData,
+  tail,
+  generateOutput,
+  addHeader
+} = require("../src/lib.js");
 
 const fileContents = {
   file1: "sample\ntext",
@@ -116,6 +121,14 @@ describe("tail", () => {
 
     actual = tail(["-c0x", "file"], fs);
     expected = "tail: illegal offset -- 0x";
+    assert.deepEqual(actual, expected);
+  });
+});
+
+describe("addHeader", () => {
+  it("should return header with fileName given", () => {
+    let actual = addHeader("file");
+    let expected = "==> file <==";
     assert.deepEqual(actual, expected);
   });
 });

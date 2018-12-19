@@ -9,12 +9,14 @@ const getSelectedData = function(option, range, content, command) {
     .join(delimiter[option]);
 };
 
+const addHeader = function(fileName) {
+  return `==> ${fileName} <==`;
+};
 const getOutput = function(fs, command, option, range, fileName) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(option, range, content, command);
-    let headline = "==> " + fileName + " <==";
-    return headline + "\n" + data + "\n";
+    return addHeader(fileName) + "\n" + data + "\n";
   }
   let message = command + ": " + fileName + ": No such file or directory";
   return message;
@@ -47,5 +49,6 @@ const tail = function(args, fs) {
 module.exports = {
   getSelectedData,
   tail,
-  generateOutput
+  generateOutput,
+  addHeader
 };
