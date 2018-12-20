@@ -9,8 +9,12 @@ const getSelectedData = function(option, range, content, command) {
     .join(delimiter[option]);
 };
 
-const addHeader = function(fileName) {
-  return `==> ${fileName} <==`;
+const addHeader = function(NoOfFiles, fileName, data) {
+  if (NoOfFiles > 1) {
+    header = `==> ${fileName} <==`;
+    return `${header}\n${data}\n`;
+  }
+  return data;
 };
 
 const errorMessageForIllegalCount = function(command, option, range) {
@@ -25,11 +29,11 @@ const errorMessageForMissingFiles = function(command, fileName) {
   return `${command}: ${fileName}: No such file or directory`;
 };
 
-const getOutput = function(fs, command, option, range, fileName) {
+const getOutput = function(fs, command, option, range, NoOfFiles, fileName) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(option, range, content, command);
-    return addHeader(fileName) + "\n" + data + "\n";
+    return addHeader(NoOfFiles, fileName, data);
   }
   return errorMessageForMissingFiles(command, fileName);
 };
@@ -41,11 +45,10 @@ const generateOutput = function(args, fs, command = "head") {
     return errorMessageForIllegalCount(command, option, range);
   }
 
-  let output = fileNames.map(getOutput.bind(null, fs, command, option, range));
+  let output = fileNames.map(
+    getOutput.bind(null, fs, command, option, range, fileNames.length)
+  );
 
-  if (output.length == 1 && fs.existsSync(fileNames[0])) {
-    output = output[0].split("\n").slice(1);
-  }
   return output.join("\n");
 };
 

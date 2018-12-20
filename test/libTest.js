@@ -76,29 +76,29 @@ describe("generateOutput", function() {
 
   it("should return range of characters in file", function() {
     let actual = generateOutput(["-c", "1", "file1"], fs);
-    let expected = "s\n";
+    let expected = "s";
     assert.deepEqual(actual, expected);
 
     actual = generateOutput(["-c", "4", "file1"], fs);
-    expected = "samp\n";
+    expected = "samp";
     assert.deepEqual(actual, expected);
 
     actual = generateOutput(["-c", "10", "file1"], fs);
-    expected = "sample\ntex\n";
+    expected = "sample\ntex";
     assert.deepEqual(actual, expected);
   });
 
   it("should return range of lines in file", function() {
     let actual = generateOutput(["-n", "1", "file1"], fs);
-    let expected = "sample\n";
+    let expected = "sample";
     assert.deepEqual(actual, expected);
 
     actual = generateOutput(["-n", "4", "file2"], fs);
-    expected = "a\nb\nc\nd\n";
+    expected = "a\nb\nc\nd";
     assert.deepEqual(actual, expected);
 
     actual = generateOutput(["-n", "10", "file2"], fs);
-    expected = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj\n";
+    expected = "a\nb\nc\nd\ne\nf\ng\nh\ni\nj";
     assert.deepEqual(actual, expected);
   });
 
@@ -128,9 +128,18 @@ describe("tail", () => {
 });
 
 describe("addHeader", () => {
-  it("should return header with fileName given", () => {
-    let actual = addHeader("file");
-    let expected = "==> file <==";
+  it("should return data with header when NoOfFiles more than 1 ", () => {
+    let actual = addHeader(2, "file", "something");
+    let expected = "==> file <==\nsomething\n";
+    assert.deepEqual(actual, expected);
+  });
+  it("should return without header when NoOfFiles less than or 1", () => {
+    let actual = addHeader(1, "text.js", "nothing");
+    let expected = "nothing";
+    assert.deepEqual(actual, expected);
+
+    actual = addHeader(0, "node.js", "sampleText");
+    expected = "sampleText";
     assert.deepEqual(actual, expected);
   });
 });
