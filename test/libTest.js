@@ -5,7 +5,8 @@ const {
   tail,
   generateOutput,
   addHeader,
-  errorMessageForIllegalCount
+  errorMessageForIllegalCount,
+  errorMessageForMissingFiles
 } = require("../src/lib.js");
 
 const fileContents = {
@@ -167,5 +168,17 @@ describe("errorMessageForIllegalCount", () => {
       expected = "tail: illegal offset -- 3s";
       assert.deepEqual(actual, expected);
     });
+  });
+});
+
+describe("errorMessageForMissingFiles", () => {
+  it("should return erroror message for missing files for both head and tail", () => {
+    let actual = errorMessageForMissingFiles("head", "something");
+    let expected = "head: something: No such file or directory";
+    assert.deepEqual(actual, expected);
+
+    actual = errorMessageForMissingFiles("tail", "nothing");
+    expected = "tail: nothing: No such file or directory";
+    assert.deepEqual(actual, expected);
   });
 });

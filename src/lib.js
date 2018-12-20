@@ -21,14 +21,17 @@ const errorMessageForIllegalCount = function(command, option, range) {
   return `${command}: illegal ${message[command][option]} -- ${range}`;
 };
 
+const errorMessageForMissingFiles = function(command, fileName) {
+  return `${command}: ${fileName}: No such file or directory`;
+};
+
 const getOutput = function(fs, command, option, range, fileName) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(option, range, content, command);
     return addHeader(fileName) + "\n" + data + "\n";
   }
-  let message = command + ": " + fileName + ": No such file or directory";
-  return message;
+  return errorMessageForMissingFiles(command, fileName);
 };
 
 const generateOutput = function(args, fs, command = "head") {
@@ -59,5 +62,6 @@ module.exports = {
   tail,
   generateOutput,
   addHeader,
-  errorMessageForIllegalCount
+  errorMessageForIllegalCount,
+  errorMessageForMissingFiles
 };
