@@ -1,5 +1,10 @@
 const { parse } = require("./parser.js");
 
+const {
+  errorMessageForIllegalCount,
+  errorMessageForMissingFiles
+} = require("./errorHandling.js");
+
 const getSelectedData = function(option, range, content, command) {
   const delimiter = { byte: "", line: "\n" };
   const rangeBound = { head: [0, range], tail: [-range] };
@@ -15,18 +20,6 @@ const addHeader = function(NoOfFiles, fileName, data) {
     return `${header}\n${data}\n`;
   }
   return data;
-};
-
-const errorMessageForIllegalCount = function(command, option, range) {
-  const message = {
-    head: { byte: "byte count", line: "line count" },
-    tail: { byte: "offset", line: "offset" }
-  };
-  return `${command}: illegal ${message[command][option]} -- ${range}`;
-};
-
-const errorMessageForMissingFiles = function(command, fileName) {
-  return `${command}: ${fileName}: No such file or directory`;
 };
 
 const getOutput = function(fs, command, option, range, NoOfFiles, fileName) {
@@ -64,7 +57,5 @@ module.exports = {
   getSelectedData,
   tail,
   generateOutput,
-  addHeader,
-  errorMessageForIllegalCount,
-  errorMessageForMissingFiles
+  addHeader
 };
