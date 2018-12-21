@@ -14,19 +14,26 @@ const getSelectedData = function(option, range, content, command) {
     .join(delimiter[option]);
 };
 
-const addHeader = function(NoOfFiles, fileName, data) {
-  if (NoOfFiles > 1) {
+const addHeader = function(numberOfFiles, fileName, data) {
+  if (numberOfFiles > 1) {
     header = `==> ${fileName} <==`;
     return `${header}\n${data}\n`;
   }
   return data;
 };
 
-const getOutput = function(fs, command, option, range, NoOfFiles, fileName) {
+const getOutput = function(
+  fs,
+  command,
+  option,
+  range,
+  numberOfFiles,
+  fileName
+) {
   if (fs.existsSync(fileName)) {
     let content = fs.readFileSync(fileName, "utf-8");
     let data = getSelectedData(option, range, content, command);
-    return addHeader(NoOfFiles, fileName, data);
+    return addHeader(numberOfFiles, fileName, data);
   }
   return errorMessageForMissingFiles(command, fileName);
 };
