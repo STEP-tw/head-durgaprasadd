@@ -16,7 +16,7 @@ const getSelectedData = function(option, range, content, command) {
 
 const addHeader = function(numberOfFiles, fileName, data) {
   if (numberOfFiles > 1) {
-    header = `==> ${fileName} <==`;
+    const header = `==> ${fileName} <==`;
     return `${header}\n${data}\n`;
   }
   return data;
