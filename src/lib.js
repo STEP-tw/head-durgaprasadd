@@ -38,12 +38,8 @@ const getOutput = function(
   return errorMessageForMissingFiles(command, fileName);
 };
 
-const generateOutput = function(args, fs, command = "head") {
+const generateOutput = function(args, fs, command) {
   let { option, range, fileNames } = parse(args);
-
-  if (range <= 0 || isNaN(range)) {
-    return errorMessageForIllegalCount(command, option, range);
-  }
 
   let output = fileNames.map(
     getOutput.bind(null, fs, command, option, range, fileNames.length)
@@ -52,9 +48,20 @@ const generateOutput = function(args, fs, command = "head") {
   return output.join("\n");
 };
 
+const head = function(args, fs) {
+  let { range, option } = parse(args);
+  if (range <= 0 || isNaN(range)) {
+    return errorMessageForIllegalCount("head", option, range);
+  }
+  return generateOutput(args, fs, "head");
+};
+
 const tail = function(args, fs) {
-  let { range } = parse(args);
-  if (+range == 0) {
+  let { range, option } = parse(args);
+  if (isNaN(range)) {
+    return errorMessageForIllegalCount("tail", option, range);
+  }
+  if (range == 0) {
     return "";
   }
   return generateOutput(args, fs, "tail");
@@ -64,5 +71,6 @@ module.exports = {
   getSelectedData,
   tail,
   generateOutput,
-  addHeader
+  addHeader,
+  head
 };
